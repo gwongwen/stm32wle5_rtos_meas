@@ -1,10 +1,10 @@
 # Code for 6sens Omnitilt Project : measurement of battery life
 
 ## Overview
-This code allows us to evaulate the battery life. The characteristics of the test are as follows:
+This code allows us to evaluate the battery life. The characteristics of the test are as follows:
 
 - for ADC, no threshold so no data is written to external memory
-- for the seb=nsor, 4 samples (battery, temperature, pressure, humidity) are taken and stored in internal memory (NVS) every 10 minutes. Only the battery value will be used
+- for the sensor, 4 samples (battery, temperature, pressure, humidity) are taken and stored in internal memory (NVS) every 10 minutes. Only the battery value will be used
 
 The battery used has the following characteristics: 
 
