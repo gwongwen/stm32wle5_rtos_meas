@@ -23,7 +23,7 @@ void vbat_work_handler(struct k_work *work_rtc)
 	uint16_t vbat;
 
 	vbat = app_stm32_get_vbat(dev);
-	printk("stm32 vbat: %d", vbat);
+	printk("stm32 vbat: %d\n", vbat);
 	
 }
 K_WORK_DEFINE(vbat_work, vbat_work_handler);
