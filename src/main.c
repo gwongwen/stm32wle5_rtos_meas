@@ -44,8 +44,8 @@ int8_t main(void)
 	app_stm32_vbat_init(dev);
 	
 	// beginning of isr timer
-	k_timer_start(&geo_timer, K_MSEC(5), K_MSEC(5));				// for test
-	k_timer_start(&vbat_timer, K_SECONDS(300), K_SECONDS(300));		// for test
+	k_timer_start(&geo_timer, K_NO_WAIT, K_MSEC(1000));			// for test
+	k_timer_start(&vbat_timer, K_NO_WAIT, K_SECONDS(5));		// for test
 	
 	return 0;
 }

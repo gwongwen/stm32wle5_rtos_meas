@@ -4,7 +4,7 @@
 This code allows us to evaluate the battery life. The characteristics of the test are as follows:
 
 - for ADC, no threshold so no data is written to external memory
-- for the sensor, 4 samples (battery, temperature, pressure, humidity) are taken and stored in internal memory (NVS) every 10 minutes. Only the battery value will be used
+- for the sensor, 1 sample of battery level is taken and printed in console every 5 minutes.
 
 The battery used has the following characteristics: 
 
