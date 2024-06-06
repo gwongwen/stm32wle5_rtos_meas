@@ -1,4 +1,4 @@
-# Code for 6sens Omnitilt Project : measurement of battery life
+# Code for Sastress Project : measurement of battery life
 
 ## Overview
 This code allows us to evaluate the battery life. The characteristics of the test are as follows:
@@ -11,6 +11,12 @@ The battery used has the following characteristics:
 - Li-Polymer battery
 - 3.7V, 3000mAH
 - 57 x 63 x 8.1mm
+
+The solar panel used has the following characteristics :
+
+- size of 100x80x2.5mm
+- 1W
+- 170mA of current, 5.5V of voltage, at peak power
 
 ## Building and Running
 The following commands clean build folder, build and flash the sample:

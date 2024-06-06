@@ -11,6 +11,7 @@
 //  ======== includes ==============================================
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
+#include <zephyr/drivers/adc.h>
 #include <zephyr/drivers/sensor.h>
 
 //  ======== prototypes ============================================

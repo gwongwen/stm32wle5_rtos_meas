@@ -32,22 +32,22 @@ uint16_t app_stm32_get_vbat(const struct device *dev)
 {
     struct sensor_value bat_int32;
     uint16_t bat_uint16;
-    int8_t ret = 0;
+    int8_t ret;
 
     // getting vbat ADC device
     dev = DEVICE_DT_GET_ONE(st_stm32_vbat);
 
     // fetching data
     ret = sensor_sample_fetch(dev);
-    if (ret < 0 && ret != -EBADMSG) {        
-	    printk("error: stm32 vbat sample is not up to date\n");
+    if (ret < 0) {        
+	    printk("stm32 vbat sample is not up to date. error: %d\n", ret);
 	    return 0;
     }
 
     // getting channel function
 	ret = sensor_channel_get(dev, SENSOR_CHAN_VOLTAGE, &bat_int32);
     if (ret < 0) {
-        printk("error: can't read sensor channels\n");
+        printk("can't read sensor channels. error: %d\n", ret);
 	    return 0;
     }
 
@@ -55,4 +55,5 @@ uint16_t app_stm32_get_vbat(const struct device *dev)
     // resolution 12bits: 0 to 4095 (uint16)
     bat_uint16 = (uint16_t)(sensor_value_to_milli(&bat_int32));
     return bat_uint16;
+
 }

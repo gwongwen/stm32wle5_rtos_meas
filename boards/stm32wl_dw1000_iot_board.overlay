@@ -7,7 +7,7 @@
 
 /* configuration of ADC for geophone sensor */
 /* adjust channel number according to pinmux in board.dts */
-/* PB13 ADC_GSONE -> ADC_IN0 - see datasheet Pinout Config pg 56/149*/
+/* PB13 ADC_GSONE -> ADC_IN0 - see datasheet Pinout Config pg 56/149 */
 
 / {
 	zephyr,user {
@@ -28,17 +28,13 @@
 	};
 };
 
-/* config of BME280 sensor (temperature and Humidity) on i2c bus */
-/* address 0x77 --> Address Chip Select on high level (VDD) */
-
-&i2c1 {
+/* enable the corresponding ADC, with the correct vref value (in mV) */
+&adc1 {
+	vref-mv = <3300>;
 	status = "okay";
-	bme280@77 {
-		compatible = "bosch,bme280";
-		reg = <0x77>;
-	};
 };
 
+/* channel configuration */
 &adc1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -52,3 +48,13 @@
 	};
 };
 
+/* config of BME280 sensor (temperature and Humidity) on i2c bus */
+/* address 0x77 --> Address Chip Select on high level (VDD) */
+
+&i2c1 {
+	status = "okay";
+	bme280@77 {
+		compatible = "bosch,bme280";
+		reg = <0x77>;
+	};
+};

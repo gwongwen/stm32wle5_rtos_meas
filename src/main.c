@@ -4,31 +4,17 @@
 #include "app_vbat.h"
 
 //  ======== interrupt sub-routine ===============================
-void geo_work_handler(struct k_work *work_geo)
-{
-	uint16_t value;
-	value = app_adc_get_val();
-}
-K_WORK_DEFINE(geo_work, geo_work_handler);
-
-void geo_timer_handler(struct k_timer *geo_dum)
-{
-	k_work_submit(&geo_work);
-}
-K_TIMER_DEFINE(geo_timer, geo_timer_handler, NULL);
-
-void vbat_work_handler(struct k_work *work_rtc)
+void vbat_work_handler(struct k_timer *work)
 {
 	const struct device *dev;
 	uint16_t vbat;
 
 	vbat = app_stm32_get_vbat(dev);
 	printk("stm32 vbat: %d\n", vbat);
-	
 }
 K_WORK_DEFINE(vbat_work, vbat_work_handler);
 
-void vbat_timer_handler(struct k_timer *rtc_dum)
+void vbat_timer_handler(struct k_timer *timer)
 {
 	k_work_submit(&vbat_work);
 }
@@ -37,15 +23,20 @@ K_TIMER_DEFINE(vbat_timer, vbat_timer_handler, NULL);
 //  ======== main ===============================================
 int8_t main(void)
 {
-	const struct device *dev = NULL;
-	uint16_t adc_val;
+	const struct device *dev;
+	uint16_t value;
 
 	// initialization of all devices
 	app_stm32_vbat_init(dev);
 	
+	printk("Battery Level Measurement\nBoard: %s\n", CONFIG_BOARD);
+
 	// beginning of isr timer
-	k_timer_start(&geo_timer, K_NO_WAIT, K_MSEC(1000));			// for test
 	k_timer_start(&vbat_timer, K_NO_WAIT, K_SECONDS(5));		// for test
-	
+	while (1) {
+		value = app_adc_get_val();
+		k_msleep(1000);
+	}
 	return 0;
 }
+
