@@ -2,6 +2,7 @@
 #include <zephyr/kernel.h>
 #include "app_adc.h"
 #include "app_vbat.h"
+#include "app_flash.h"
 
 //  ======== globals ============================================
 uint16_t cnt;           // declaration of counter index
@@ -25,8 +26,11 @@ K_TIMER_DEFINE(adc_timer, adc_timer_handler, NULL);
 int8_t main(void)
 {
 	const struct device *dev;
+	static struct nvs_fs fs;
 	uint16_t vbat;
 	cnt = 0;
+	uint32_t max_cnt = 0;
+	int8_t ret;
 
 	// initialization of all devices
 	app_stm32_vbat_init(dev);
@@ -42,8 +46,16 @@ int8_t main(void)
 			vbat = app_stm32_get_vbat(dev);
 			printk("stm32 vbat: %"PRIu16"\n", vbat);
 			cnt = 0;
-		}	
-	}	
+			max_cnt++;
+			// writing data in the first page of 2kbytes
+			(void)nvs_write(&fs, NVS_SENSOR_ID, &max_cnt, sizeof(max_cnt));
+		}
+	}
+	// reading the first page
+	ret = nvs_read(&fs, NVS_SENSOR_ID, &max_cnt, sizeof(max_cnt));
+
+	// printing data stored in memory
+	printk("max value of counter: %"PRIu32"\n",max_cnt);	
 	return 0;
 }
 
