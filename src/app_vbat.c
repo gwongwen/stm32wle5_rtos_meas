@@ -55,5 +55,4 @@ uint16_t app_stm32_get_vbat(const struct device *dev)
     // resolution 12bits: 0 to 4095 (uint16)
     bat_uint16 = (uint16_t)(sensor_value_to_milli(&bat_int32));
     return bat_uint16;
-
 }

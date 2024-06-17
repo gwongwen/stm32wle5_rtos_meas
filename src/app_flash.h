@@ -15,19 +15,12 @@
 #include <zephyr/drivers/flash.h>
 #include <zephyr/storage/flash_map.h>
 
-//  ======== globals ===============================================
-struct vtph {
-	uint16_t vbat;
-	uint16_t temp;
-	uint16_t press;
-	uint16_t hum;
-};
-
 //  ======== defines ===============================================
 #define NVS_PARTITION			storage_partition
 #define NVS_PARTITION_DEVICE	FIXED_PARTITION_DEVICE(NVS_PARTITION)
 #define NVS_PARTITION_OFFSET	FIXED_PARTITION_OFFSET(NVS_PARTITION)   
-#define NVS_SENSOR_ID			1                              
+#define NVS_SENSOR_ID			1 
+#define NVS_BAT_ID				2                           
 
 //  ======== prototypes ============================================
 int8_t app_flash_init(struct nvs_fs *fs);
