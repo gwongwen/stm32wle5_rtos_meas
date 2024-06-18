@@ -1,4 +1,4 @@
-# Code for Sastress Project : measurement of battery life
+# Code for 6sens Project : measurement of battery life
 
 ## Overview
 This code allows us to evaluate the battery life. The characteristics of the test are as follows:
@@ -10,8 +10,7 @@ This code allows us to evaluate the battery life. The characteristics of the tes
 The battery used has the following characteristics: 
 
 - Li-Polymer battery
-- 3.7V, 3000mAH
-- 57 x 63 x 8.1mm
+- 3.7V, 3000mAH / 6000mAH
 
 The solar panel used has the following characteristics :
 
