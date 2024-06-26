@@ -23,7 +23,7 @@
 	stm32_vbat: stm32vbat {
     	compatible = "st,stm32-vbat";
     	io-channels = <&adc1 14>;
-    	ratio = <3>;
+    	ratio = <1>;
     	status = "okay";
 	};
 };
