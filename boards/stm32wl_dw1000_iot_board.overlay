@@ -11,41 +11,44 @@
 
 / {
 	zephyr,user {
-		io-channels = <&adc1 13>;
+		io-channels = <&adc1 0>;
 	};
-	aliases {
-		rtc = &rtc;
-	};
+};
 
 /* VBAT battery voltage monitoring */
-/* internal ADC channnel of STM32, IN4 - see datasheet ADC part pg 42/149 */
-
+/* external ADC channnel of STM32, IN5 - Port PB1 on schematic */
+/* ratio = 2 -> voltage-divider by 2 on schematic */
+/ {
 	stm32_vbat: stm32vbat {
     	compatible = "st,stm32-vbat";
-    	io-channels = <&adc1 14>;
-    	ratio = <1>;
+    	io-channels = <&adc1 5>;
+   		ratio = <2>;
     	status = "okay";
 	};
 };
 
-/* enable the corresponding ADC, with the correct vref value (in mV) */
+/* channel IN0 configuration */
 &adc1 {
-	vref-mv = <1100>;
-	status = "okay";
-};
-
-/* channel configuration */
-&adc1 {
-	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "okay";
-	channel@13 {
-		reg = <13>;
+	compatible = "st,stm32-adc";
+	vref-channel = <13>;
+	channel@0 {
+		reg = <0>;
 		zephyr,gain = "ADC_GAIN_1";
 		zephyr,reference = "ADC_REF_INTERNAL";
 		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
 		zephyr,resolution = <12>;
+		zephyr,vref-mv = <3300>;
 	};
+	status = "okay";
+};
+
+/* enable the corresponding ADC for VBAT, with the correct vref value (in mV) */
+&adc1 {
+	vref-channel = <13>;
+	vbat-channel = <5>;
+	vref-mv = <3300>;
+	status = "okay";
 };
 
 /* config of BME280 sensor (temperature and Humidity) on i2c bus */
