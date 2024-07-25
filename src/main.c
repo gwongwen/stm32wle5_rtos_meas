@@ -25,15 +25,19 @@ K_TIMER_DEFINE(adc_timer, adc_timer_handler, NULL);
 //  ======== main ===============================================
 int8_t main(void)
 {
-	const struct device *dev;
+	const struct device *vref_dev = NULL;
+	const struct device *vbat_dev = NULL;
 	struct nvs_fs flash;
-	uint16_t vbat;
+	uint16_t vref, vbat;
 	cnt = 0;
 	uint32_t max_cnt = 0;
 	int8_t ret;
 
-	// initialization of all devices
-	app_stm32_vbat_init(dev);
+	// setup all devices
+	vref_dev = DEVICE_DT_GET_ONE(st_stm32_vref);
+	vbat_dev = DEVICE_DT_GET_ONE(st_stm32_vbat);
+	app_stm32_vref_init(vref_dev);
+	app_stm32_vbat_init(vbat_dev);
 	app_flash_init(&flash);
 	
 	printk("Battery Level Measurement\nBoard: %s\n", CONFIG_BOARD);
@@ -44,7 +48,8 @@ int8_t main(void)
 	while (1) {
 		// counter value for waiting 10 min -> 600000ms
 		if (cnt >= 600000) {
-			vbat = app_stm32_get_vbat(dev);
+			vref = app_stm32_get_vref(vref_dev);
+			vbat = app_stm32_get_vbat(dev, vref);
 			// writing data in the first page of 2kbytes
 			(void)nvs_write(&flash, NVS_BAT_ID, &vbat, sizeof(vbat));
 			
